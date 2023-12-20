@@ -1,0 +1,28 @@
+app:
+  name: "newbeemall"
+  mode: "dev"
+  port: 8080
+  version: "v1.0.3"
+  start_time: "2023-12-19"
+  machine_id: 1
+log:
+  level: "debug"
+  filename: "newbeemall.log"
+  max_size: 200
+  max_age: 30
+  max_backup: 7
+mysql:
+  host: "127.0.0.1"
+  port: 3306
+  user: "root"
+  password: "zj20010106"
+  dbname: "ori3"
+  max_open_conns: 200
+  max_idle_conns: 50
+redis:
+  host: "127.0.0.1"
+  port: 6379
+  db: 0
+  password: ""
+  pool_size: 100
+  minidle_conns: 100
