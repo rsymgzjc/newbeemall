@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"newbeemall/models"
 	"reflect"
 	"strings"
 
@@ -10,6 +11,8 @@ import (
 	"github.com/go-playground/locales/zh"
 	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
+	enTranslations "github.com/go-playground/validator/v10/translations/en"
+	zhTranslations "github.com/go-playground/validator/v10/translations/zh"
 )
 
 // 定义一个全局翻译器T
@@ -72,8 +75,8 @@ func removeTopStruct(fields map[string]string) map[string]string {
 func SignUpParamStructLevelValidation(sl validator.StructLevel) {
 	su := sl.Current().Interface().(models.ParamSignUp)
 
-	if su.PassWord != su.RepeatPassWord {
+	if su.PassWord != su.RePassWord {
 		// 输出错误提示信息，最后一个参数就是传递的param
-		sl.ReportError(su.RepeatPassWord, "repeatpassword", "RepeatPassWord", "eqfield", "password")
+		sl.ReportError(su.RePassWord, "repassword", "RePassWord", "eqfield", "password")
 	}
 }
