@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"newbeemall/logic"
 	"newbeemall/models"
 
 	"github.com/go-playground/validator/v10"
@@ -17,7 +18,14 @@ func UserSignUpHandler(c *gin.Context) {
 		zap.L().Error("SignUp with invalid param", zap.Error(err))
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-
+			ResponseError(c, CodeInvalidParam)
+			return
 		}
+		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
+		return
+	}
+	//业务逻辑
+	if err := logic.SignUp(p); err != nil {
+
 	}
 }
