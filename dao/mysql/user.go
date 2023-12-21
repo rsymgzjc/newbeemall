@@ -2,7 +2,9 @@ package mysql
 
 import (
 	"crypto/md5"
+	"database/sql"
 	"encoding/hex"
+	"errors"
 	"newbeemall/models"
 )
 
@@ -31,5 +33,21 @@ func UserInsert(user *models.User) (err error) {
 	user.Password = encrptPassword(user.Password)
 	sqlStr := `insert into user(user_id,password,username,email) values (?,?,?,?)`
 	_, err = db.Exec(sqlStr, user.UserID, user.Password, user.UserName, user.Email)
+	return
+}
+
+func UserLogin(user *models.User) (err error) {
+	opassword := encrptPassword(user.Password)
+	sqlStr := `select user_id,username,password from user where username=?`
+	err = db.Get(user, sqlStr, user.UserName)
+	if errors.Is(err, sql.ErrNoRows) {
+		return UserNotExist
+	}
+	if err != nil {
+		return
+	}
+	if user.Password != opassword {
+		return InvalidPassword
+	}
 	return
 }

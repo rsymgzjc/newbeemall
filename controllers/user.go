@@ -34,6 +34,28 @@ func UserSignUpHandler(c *gin.Context) {
 			return
 		}
 		ResponseError(c, CodeServerBusy)
+		return
 	}
-	ResponseSuccess(c, "登录成功")
+	ResponseSuccess(c, "注册成功")
+}
+
+func UserLoginHandler(c *gin.Context) {
+	//获取参数和校验
+	p := new(models.ParamLogin)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("Login with invalid param", zap.Error(err))
+		ResponseError(c, CodeInvalidParam)
+		return
+	}
+	//业务处理
+	Token, err := logic.Login(p)
+	if err != nil {
+		if errors.Is(err, mysql.UserNotExist) {
+			ResponseError(c, CodeUserNotExist)
+			return
+		}
+		ResponseError(c, CodeServerBusy)
+		return
+	}
+	ResponseSuccess(c, Token)
 }

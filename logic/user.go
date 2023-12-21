@@ -3,6 +3,7 @@ package logic
 import (
 	"newbeemall/dao/mysql"
 	"newbeemall/models"
+	"newbeemall/pkg/jwt"
 	"newbeemall/pkg/snowflake"
 
 	"go.uber.org/zap"
@@ -22,6 +23,19 @@ func SignUp(p *models.ParamSignUp) (err error) {
 	}
 	if err = mysql.UserInsert(user); err != nil {
 		zap.L().Error("插入失败", zap.Error(err))
+		return
 	}
 	return
+}
+
+func Login(p *models.ParamLogin) (Token string, err error) {
+	user := &models.User{
+		UserName: p.Username,
+		Password: p.Password,
+	}
+	if err = mysql.UserLogin(user); err != nil {
+		zap.L().Error("登录失败", zap.Error(err))
+		return
+	}
+	return jwt.GenToken(user.UserID, user.UserName)
 }
