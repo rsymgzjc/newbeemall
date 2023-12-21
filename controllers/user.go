@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"errors"
+	"newbeemall/dao/mysql"
 	"newbeemall/logic"
 	"newbeemall/models"
 
@@ -26,6 +28,12 @@ func UserSignUpHandler(c *gin.Context) {
 	}
 	//业务逻辑
 	if err := logic.SignUp(p); err != nil {
-
+		zap.L().Error("logic.SignUp with invalid param", zap.Error(err))
+		if errors.Is(err, mysql.UserExist1) {
+			ResponseError(c, CodeUserExist)
+			return
+		}
+		ResponseError(c, CodeServerBusy)
 	}
+	ResponseSuccess(c, "登录成功")
 }

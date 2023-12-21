@@ -5,6 +5,7 @@ create table user(
          user_id bigint(20) not null ,
          username varchar(64) collate utf8mb4_general_ci not null,
          password varchar(64) collate utf8mb4_general_ci not null,
+         introduction varchar(128) collate utf8mb4_general_ci not null,
          email varchar(64) null collate utf8mb4_general_ci,
          gender tinyint(4) not null default '0',
          create_time timestamp null default current_timestamp,
