@@ -1,7 +1,8 @@
-package controllers
+package user
 
 import (
 	"errors"
+	"newbeemall/controllers"
 	"newbeemall/dao/mysql"
 	"newbeemall/logic"
 	"newbeemall/models"
@@ -20,23 +21,23 @@ func UserSignUpHandler(c *gin.Context) {
 		zap.L().Error("SignUp with invalid param", zap.Error(err))
 		errs, ok := err.(validator.ValidationErrors)
 		if !ok {
-			ResponseError(c, CodeInvalidParam)
+			controllers.ResponseError(c, controllers.CodeInvalidParam)
 			return
 		}
-		ResponseErrorWithMsg(c, CodeInvalidParam, removeTopStruct(errs.Translate(trans)))
+		controllers.ResponseErrorWithMsg(c, controllers.CodeInvalidParam, controllers.RemoveTopStruct(errs.Translate(controllers.Trans)))
 		return
 	}
 	//业务逻辑
 	if err := logic.SignUp(p); err != nil {
 		zap.L().Error("logic.SignUp with invalid param", zap.Error(err))
 		if errors.Is(err, mysql.UserExist1) {
-			ResponseError(c, CodeUserExist)
+			controllers.ResponseError(c, controllers.CodeUserExist)
 			return
 		}
-		ResponseError(c, CodeServerBusy)
+		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
 	}
-	ResponseSuccess(c, "注册成功")
+	controllers.ResponseSuccess(c, "注册成功")
 }
 
 func UserLoginHandler(c *gin.Context) {
@@ -44,18 +45,18 @@ func UserLoginHandler(c *gin.Context) {
 	p := new(models.ParamLogin)
 	if err := c.ShouldBindJSON(p); err != nil {
 		zap.L().Error("Login with invalid param", zap.Error(err))
-		ResponseError(c, CodeInvalidParam)
+		controllers.ResponseError(c, controllers.CodeInvalidParam)
 		return
 	}
 	//业务处理
 	Token, err := logic.Login(p)
 	if err != nil {
 		if errors.Is(err, mysql.UserNotExist) {
-			ResponseError(c, CodeUserNotExist)
+			controllers.ResponseError(c, controllers.CodeUserNotExist)
 			return
 		}
-		ResponseError(c, CodeServerBusy)
+		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
 	}
-	ResponseSuccess(c, Token)
+	controllers.ResponseSuccess(c, Token)
 }
