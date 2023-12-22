@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"newbeemall/settings"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 	"go.uber.org/zap"
 )
