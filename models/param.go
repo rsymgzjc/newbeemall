@@ -22,4 +22,8 @@ type ParamLogin struct {
 }
 
 type ParamUpdate struct {
+	Username     string `json:"username"`
+	Password     string `json:"password"`
+	Introduction string `json:"introduction"`
+	Gender       int8   `json:"gender"`
 }

@@ -62,5 +62,29 @@ func UserLoginHandler(c *gin.Context) {
 }
 
 func UserUpdateHandler(c *gin.Context) {
+	//获取参数与校验
+	p := new(models.ParamUpdate)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("Update with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeInvalidParam)
+		return
+	}
+	//获取用户ID
+	userid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		zap.L().Error("获取用户ID失败", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeNeedLogin)
+		return
+	}
+	//业务处理
+	if err := logic.Update(p, userid); err != nil {
+		zap.L().Error("logic.Update with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, "更新成功")
+}
+
+func UserGetInfoHandler(c *gin.Context) {
 
 }

@@ -39,3 +39,17 @@ func Login(p *models.ParamLogin) (Token string, err error) {
 	}
 	return jwt.GenToken(user.UserID, user.UserName)
 }
+
+func Update(p *models.ParamUpdate, userid int64) (err error) {
+	user := &models.User{
+		UserName:     p.Username,
+		Password:     p.Password,
+		Introduction: p.Introduction,
+		Gender:       p.Gender,
+	}
+	if err = mysql.UserUpdate(user, userid); err != nil {
+		zap.L().Error("更新失败", zap.Error(err))
+		return
+	}
+	return
+}

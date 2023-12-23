@@ -1,13 +1,12 @@
 package middlewares
 
 import (
-	"github.com/gin-gonic/gin"
 	"newbeemall/controllers"
 	"newbeemall/pkg/jwt"
 	"strings"
-)
 
-const CtxUserID = "userID"
+	"github.com/gin-gonic/gin"
+)
 
 // JWTAuthMiddleware 基于JWT的认证中间件
 func JWTAuthMiddleware() func(c *gin.Context) {
@@ -36,7 +35,7 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 			return
 		}
 		// 将当前请求的username信息保存到请求的上下文c上
-		c.Set(CtxUserID, mc.UserID)
+		c.Set(controllers.CtxUserID, mc.UserID)
 		c.Next() // 后续的处理函数可以用过c.Get("userID")来获取当前请求的用户信息
 	}
 }

@@ -51,3 +51,14 @@ func UserLogin(user *models.User) (err error) {
 	}
 	return
 }
+func UserUpdate(user *models.User, userid int64) (err error) {
+	if user.Password != "" {
+		password := encrptPassword(user.Password)
+		sqlStr := `update user set username=?,password=?,introduction=?,gender=? where user_id=?`
+		_, err = db.Exec(sqlStr, user.UserName, password, user.Introduction, user.Gender, userid)
+	} else {
+		sqlStr := `update user set username=?,introduction=?,gender=? where user_id=?`
+		_, err = db.Exec(sqlStr, user.UserName, user.Introduction, user.Gender, userid)
+	}
+	return
+}
