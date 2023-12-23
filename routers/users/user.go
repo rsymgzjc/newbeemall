@@ -17,6 +17,6 @@ func (m *MallUserRouter) InitMallUserRouter(r *gin.RouterGroup) {
 	}
 	r.Use(middlewares.JWTAuthMiddleware())
 	{
-
+		r.PUT("/user/update", user.UserUpdateHandler) //用户信息修改
 	}
 }

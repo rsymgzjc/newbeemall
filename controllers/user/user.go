@@ -60,3 +60,7 @@ func UserLoginHandler(c *gin.Context) {
 	}
 	controllers.ResponseSuccess(c, Token)
 }
+
+func UserUpdateHandler(c *gin.Context) {
+
+}
