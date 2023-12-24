@@ -4,8 +4,10 @@ import (
 	"errors"
 	"newbeemall/controllers"
 	"newbeemall/dao/mysql"
+	"newbeemall/dao/redis"
 	"newbeemall/logic"
 	"newbeemall/models"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 
@@ -58,6 +60,11 @@ func UserLoginHandler(c *gin.Context) {
 		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
 	}
+	//添加Token到redis
+	if err := redis.AddUserToken(Token); err != nil {
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
 	controllers.ResponseSuccess(c, Token)
 }
 
@@ -100,4 +107,15 @@ func UserGetInfoHandler(c *gin.Context) {
 		return
 	}
 	controllers.ResponseSuccess(c, data)
+}
+
+func UserLogoutHandler(c *gin.Context) {
+	authHeader := c.Request.Header.Get("Authorization")
+	splitStr := strings.Split(authHeader, " ")
+	Token := splitStr[1]
+	if err := redis.DeleteUserToken(Token); err != nil {
+		controllers.ResponseError(c, controllers.CodeLogoutFailed)
+		return
+	}
+	controllers.ResponseSuccess(c, "退出成功")
 }

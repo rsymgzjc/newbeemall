@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"newbeemall/controllers"
+	"newbeemall/dao/redis"
 	"newbeemall/pkg/jwt"
 	"strings"
 
@@ -30,6 +31,12 @@ func JWTAuthMiddleware() func(c *gin.Context) {
 		// parts[1]是获取到的tokenString，我们使用之前定义好的解析JWT的函数来解析它
 		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
+			controllers.ResponseError(c, controllers.CodeInvalidToken)
+			c.Abort()
+			return
+		}
+		//判断是否已经退出登录了
+		if redis.SearchUserToken(parts[1]) == 0 {
 			controllers.ResponseError(c, controllers.CodeInvalidToken)
 			c.Abort()
 			return
