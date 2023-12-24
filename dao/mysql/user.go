@@ -62,3 +62,10 @@ func UserUpdate(user *models.User, userid int64) (err error) {
 	}
 	return
 }
+
+func GetUserInfo(userid int64) (data *models.ParamUserDetail, err error) {
+	data = new(models.ParamUserDetail)
+	sqlStr := `select username,introduction,email,gender from user where user_id=?`
+	err = db.Get(data, sqlStr, userid)
+	return
+}

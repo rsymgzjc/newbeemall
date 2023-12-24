@@ -86,5 +86,18 @@ func UserUpdateHandler(c *gin.Context) {
 }
 
 func UserGetInfoHandler(c *gin.Context) {
-
+	//获取用户ID
+	userid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		zap.L().Error("获取用户ID失败", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeNeedLogin)
+		return
+	}
+	//业务处理
+	data, err := logic.GetInfo(userid)
+	if err != nil {
+		zap.L().Error("logic.GetInfo failed", zap.Error(err))
+		return
+	}
+	controllers.ResponseSuccess(c, data)
 }

@@ -53,3 +53,7 @@ func Update(p *models.ParamUpdate, userid int64) (err error) {
 	}
 	return
 }
+
+func GetInfo(userid int64) (*models.ParamUserDetail, error) {
+	return mysql.GetUserInfo(userid)
+}

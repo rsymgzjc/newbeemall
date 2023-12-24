@@ -27,3 +27,10 @@ type ParamUpdate struct {
 	Introduction string `json:"introduction"`
 	Gender       int8   `json:"gender"`
 }
+
+type ParamUserDetail struct {
+	UserName     string `json:"username" db:"username"`
+	Email        string `json:"email" db:"email"`
+	Introduction string `json:"introduction" db:"introduction"`
+	Gender       int8   `json:"gender" db:"gender"`
+}
