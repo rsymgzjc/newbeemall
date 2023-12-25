@@ -16,6 +16,7 @@ func Setup() *gin.Engine {
 	mallGroup := r.Group("api")
 	{
 		mallRouter.InitMallUserRouter(mallGroup)
+		mallRouter.InitMallUserAddressRouter(mallGroup)
 	}
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

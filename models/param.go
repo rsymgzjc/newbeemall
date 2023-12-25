@@ -34,3 +34,14 @@ type ParamUserDetail struct {
 	Introduction string `json:"introduction" db:"introduction"`
 	Gender       int8   `json:"gender" db:"gender"`
 }
+
+type UserAddress struct {
+	UserID        int64  `json:"userid" db:"user_id"`
+	UserName      string `json:"username" binding:"required" db:"username"`
+	UserPhone     string `json:"userphone" binding:"required" db:"userphone"`
+	DefaultFlag   int8   `json:"defaultflag"  db:"defaultflag"`
+	ProvinceName  string `json:"provincename" binding:"required" db:"provincename"`
+	CityName      string `json:"cityname" binding:"required" db:"cityname"`
+	RegionName    string `json:"regionname" binding:"required" db:"regionname"`
+	DetailAddress string `json:"detailaddress" binding:"required" db:"detailaddress"`
+}

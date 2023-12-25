@@ -1,7 +1,6 @@
 package redis
 
 import (
-	"fmt"
 	"newbeemall/pkg/jwt"
 )
 
@@ -23,6 +22,5 @@ func SearchUserToken(token string) int64 {
 	pipeline := rdb.TxPipeline()
 	v := pipeline.Exists(token)
 	_, _ = pipeline.Exec()
-	fmt.Println(v.Val())
 	return v.Val()
 }

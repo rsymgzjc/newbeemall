@@ -16,3 +16,25 @@ create table user(
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
 
 alter table user modify introduction varchar(128) collate utf8mb4_general_ci not null default '';
+
+drop table if exists user_address;
+
+create table user_address(
+         address_id bigint(20) not null auto_increment,
+         user_id bigint(20) not null ,
+         username varchar(64) collate utf8mb4_general_ci not null,
+         userphone varchar(64) collate utf8mb4_general_ci not null,
+         defaultflag tinyint(4) not null default '0',
+         provincename varchar(64) collate utf8mb4_general_ci not null,
+         cityname varchar(64) collate utf8mb4_general_ci not null,
+         regionname varchar(64) collate utf8mb4_general_ci not null,
+         detailaddress varchar(64) collate utf8mb4_general_ci not null,
+         create_time timestamp null default current_timestamp,
+         update_time timestamp null default current_timestamp on update current_timestamp,
+         PRIMARY KEY  (address_id),
+         UNIQUE KEY idx_username (username) USING BTREE ,
+         UNIQUE KEY idx_user_id (user_id) USING BTREE
+)engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
+
+alter table user_address drop index idx_user_id
+
