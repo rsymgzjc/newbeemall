@@ -28,3 +28,21 @@ func AddressAddHandler(c *gin.Context) {
 	}
 	controllers.ResponseSuccess(c, "添加成功")
 }
+
+func GetAddressListHandler(c *gin.Context) {
+	userid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	list, err := logic.GetAddressList(userid)
+	if err != nil {
+		zap.L().Error("logic.GetAddressList failed", zap.Error(err))
+		return
+	}
+	controllers.ResponseSuccess(c, list)
+}
+
+func UpdateAddressHandler(c *gin.Context) {
+
+}

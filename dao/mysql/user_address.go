@@ -1,7 +1,11 @@
 package mysql
 
 import (
+	"database/sql"
+	"errors"
 	"newbeemall/models"
+
+	"go.uber.org/zap"
 )
 
 func IsDefaultAddr(p *models.UserAddress) (err error) {
@@ -36,5 +40,15 @@ func AddAddr(p *models.UserAddress) (err error) {
 func ToDefaultAddr(userid int64) (err error) {
 	sqlStr := `update user_address set defaultflag=0 where defaultflag=1 and user_id=?`
 	_, err = db.Exec(sqlStr, userid)
+	return
+}
+
+func GetAddressList(userid int64) (list []*models.UserAddressList, err error) {
+	sqlStr := `select username, userphone,provincename, cityname, regionname, detailaddress from user_address where user_id=?`
+	err = db.Select(&list, sqlStr, userid)
+	if errors.Is(err, sql.ErrNoRows) {
+		zap.L().Warn("未添加地址")
+		err = nil
+	}
 	return
 }

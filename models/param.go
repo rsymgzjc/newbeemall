@@ -45,3 +45,24 @@ type UserAddress struct {
 	RegionName    string `json:"regionname" binding:"required" db:"regionname"`
 	DetailAddress string `json:"detailaddress" binding:"required" db:"detailaddress"`
 }
+
+type UserAddressList struct {
+	UserName      string `json:"username" db:"username"`
+	UserPhone     string `json:"userphone"  db:"userphone"`
+	ProvinceName  string `json:"provincename" binding:"required" db:"provincename"`
+	CityName      string `json:"cityname" binding:"required" db:"cityname"`
+	RegionName    string `json:"regionname" binding:"required" db:"regionname"`
+	DetailAddress string `json:"detailaddress" binding:"required" db:"detailaddress"`
+}
+
+type UpdateAddr struct {
+	AddressID     int    `json:"addressid" binding:"required" db:"address_id"`
+	UserID        int64  `json:"userid" binding:"required" db:"user_id"`
+	UserName      string `json:"username" binding:"required" db:"username"`
+	UserPhone     string `json:"userphone" binding:"required" db:"userphone"`
+	DefaultFlag   int8   `json:"defaultflag"  db:"defaultflag"`
+	ProvinceName  string `json:"provincename" binding:"required" db:"provincename"`
+	CityName      string `json:"cityname" binding:"required" db:"cityname"`
+	RegionName    string `json:"regionname" binding:"required" db:"regionname"`
+	DetailAddress string `json:"detailaddress" binding:"required" db:"detailaddress"`
+}

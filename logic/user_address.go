@@ -23,3 +23,7 @@ func AddressAdd(p *models.UserAddress) (err error) {
 	}
 	return
 }
+
+func GetAddressList(userid int64) ([]*models.UserAddressList, error) {
+	return mysql.GetAddressList(userid)
+}
