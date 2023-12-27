@@ -27,3 +27,27 @@ func AddressAdd(p *models.UserAddress) (err error) {
 func GetAddressList(userid int64) ([]*models.UserAddressList, error) {
 	return mysql.GetAddressList(userid)
 }
+
+func UpdateAddr(p *models.UpdateAddr) (err error) {
+	if p.DefaultFlag == 1 {
+		if err = mysql.ToDefaultAddr(p.UserID); err != nil {
+			return
+		}
+		if err = mysql.UpdateAddr(p); err != nil {
+			return
+		}
+	} else {
+		if err = mysql.UpdateAddr(p); err != nil {
+			return
+		}
+	}
+	return
+}
+
+func GetAddrDetail(id int64) (*models.UserAddrDetail, error) {
+	return mysql.GetAddrDetail(id)
+}
+
+func GetDefAddr(userid int64) (*models.UserAddressList, error) {
+	return mysql.GetDefAddr(userid)
+}
