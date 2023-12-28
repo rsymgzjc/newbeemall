@@ -29,7 +29,7 @@ func JWTUserAuthMiddleware() func(c *gin.Context) {
 			return
 		}
 		// parts[1]是获取到的tokenString，我们使用之前定义好的解析JWT的函数来解析它
-		mc, err := jwt.ParseUserToken(parts[1])
+		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
 			controllers.ResponseError(c, controllers.CodeInvalidToken)
 			c.Abort()
@@ -72,7 +72,7 @@ func JWTAdminAuthMiddleware() func(c *gin.Context) {
 			return
 		}
 		// parts[1]是获取到的tokenString，我们使用之前定义好的解析JWT的函数来解析它
-		mc, err := jwt.ParseUserToken(parts[1])
+		mc, err := jwt.ParseToken(parts[1])
 		if err != nil {
 			controllers.ResponseError(c, controllers.CodeInvalidToken)
 			c.Abort()
