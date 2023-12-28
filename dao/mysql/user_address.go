@@ -76,3 +76,9 @@ func GetDefAddr(userid int64) (data *models.UserAddressList, err error) {
 	}
 	return
 }
+
+func DelAddr(id int64, userid int64) (err error) {
+	sqlStr := `delete from user_address where address_id=? and user_id=?`
+	_, err = db.Exec(sqlStr, id, userid)
+	return
+}

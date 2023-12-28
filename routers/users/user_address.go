@@ -11,7 +11,7 @@ type MallUserAddressRouter struct {
 }
 
 func (m *MallUserRouter) InitMallUserAddressRouter(r *gin.RouterGroup) {
-	r.Use(middlewares.JWTAuthMiddleware())
+	r.Use(middlewares.JWTUserAuthMiddleware())
 	{
 		r.GET("/address", user.GetAddressListHandler)           //用户地址
 		r.POST("/address", user.AddressAddHandler)              //添加地址

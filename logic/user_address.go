@@ -51,3 +51,7 @@ func GetAddrDetail(id int64) (*models.UserAddrDetail, error) {
 func GetDefAddr(userid int64) (*models.UserAddressList, error) {
 	return mysql.GetDefAddr(userid)
 }
+
+func DelAddr(id int64, userid int64) (err error) {
+	return mysql.DelAddr(id, userid)
+}

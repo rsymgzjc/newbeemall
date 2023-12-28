@@ -95,5 +95,21 @@ func GetDefaultAddrHandler(c *gin.Context) {
 }
 
 func DelAddrHandler(c *gin.Context) {
-
+	//获取地址id
+	idStr := c.Param("addressid")
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		controllers.ResponseError(c, controllers.CodeInvalidParam)
+		return
+	}
+	userid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	if err := logic.DelAddr(id, userid); err != nil {
+		zap.L().Error("logic.DelAddr failed", zap.Error(err))
+		return
+	}
+	controllers.ResponseSuccess(c, "删除成功")
 }

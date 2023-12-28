@@ -17,6 +17,7 @@ func Setup() *gin.Engine {
 	{
 		mallRouter.InitMallUserRouter(mallGroup)
 		mallRouter.InitMallUserAddressRouter(mallGroup)
+		mallRouter.InitMallShopCartRouter(mallGroup)
 	}
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

@@ -37,7 +37,7 @@ func Login(p *models.ParamLogin) (Token string, err error) {
 		zap.L().Error("登录失败", zap.Error(err))
 		return
 	}
-	return jwt.GenToken(user.UserID, user.UserName)
+	return jwt.GenUserToken(user.UserID, user.UserName)
 }
 
 func Update(p *models.ParamUpdate, userid int64) (err error) {

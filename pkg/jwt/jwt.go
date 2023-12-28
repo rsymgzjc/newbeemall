@@ -19,7 +19,7 @@ type CustomClaims struct {
 }
 
 // GenToken 生成JWT
-func GenToken(userID int64, username string) (string, error) {
+func GenUserToken(userID int64, username string) (string, error) {
 	// 创建一个我们自己的声明
 	claims := CustomClaims{
 		UserID:   userID,
@@ -36,7 +36,7 @@ func GenToken(userID int64, username string) (string, error) {
 }
 
 // ParseToken 解析JWT
-func ParseToken(tokenString string) (*CustomClaims, error) {
+func ParseUserToken(tokenString string) (*CustomClaims, error) {
 	// 解析token
 	// 如果是自定义Claim结构体则需要使用 ParseWithClaims 方法
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (i interface{}, err error) {

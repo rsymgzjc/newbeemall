@@ -10,7 +10,12 @@ func AddUserToken(token string) (err error) {
 	_, err = pipeline.Exec()
 	return
 }
-
+func AddAdminToken(token string) (err error) {
+	pipeline := rdb.TxPipeline()
+	pipeline.Set(token, 2, jwt.TokenExpireDuration)
+	_, err = pipeline.Exec()
+	return
+}
 func DeleteUserToken(token string) (err error) {
 	pipeline := rdb.TxPipeline()
 	pipeline.Del(token)
@@ -21,6 +26,13 @@ func DeleteUserToken(token string) (err error) {
 func SearchUserToken(token string) int64 {
 	pipeline := rdb.TxPipeline()
 	v := pipeline.Exists(token)
+	_, _ = pipeline.Exec()
+	return v.Val()
+}
+
+func GetUserToken(token string) string {
+	pipeline := rdb.TxPipeline()
+	v := pipeline.Get(token)
 	_, _ = pipeline.Exec()
 	return v.Val()
 }
