@@ -19,6 +19,13 @@ func Setup() *gin.Engine {
 		mallRouter.InitMallUserAddressRouter(mallGroup)
 		mallRouter.InitMallShopCartRouter(mallGroup)
 	}
+
+	//商城管理路由
+	managerRouter := RouterGroupApp.Manage
+	managerGroup := r.Group("manage-api")
+	{
+		managerRouter.InitManageAdminUserRouter(managerGroup)
+	}
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"msg": "404",

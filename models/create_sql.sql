@@ -36,5 +36,19 @@ create table user_address(
          UNIQUE KEY idx_user_id (user_id) USING BTREE
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
 
-alter table user_address drop index idx_user_id
+alter table user_address drop index idx_user_id;
+drop table if exists admin_user;
+create table admin_user(
+         id bigint(20) not null auto_increment,
+         admin_id bigint(20) not null ,
+         adminname varchar(64) collate utf8mb4_general_ci not null,
+         password varchar(64) collate utf8mb4_general_ci not null,
+         create_time timestamp null default current_timestamp,
+         update_time timestamp null default current_timestamp on update current_timestamp,
+         PRIMARY KEY  (id),
+         UNIQUE KEY idx_username (adminname) USING BTREE ,
+         UNIQUE KEY idx_user_id (admin_id) USING BTREE
+)engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 

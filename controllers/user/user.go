@@ -5,7 +5,7 @@ import (
 	"newbeemall/controllers"
 	"newbeemall/dao/mysql"
 	"newbeemall/dao/redis"
-	"newbeemall/logic"
+	"newbeemall/logic/user"
 	"newbeemall/models"
 	"strings"
 
@@ -30,7 +30,7 @@ func UserSignUpHandler(c *gin.Context) {
 		return
 	}
 	//业务逻辑
-	if err := logic.SignUp(p); err != nil {
+	if err := user.SignUp(p); err != nil {
 		zap.L().Error("logic.SignUp with invalid param", zap.Error(err))
 		if errors.Is(err, mysql.UserExist1) {
 			controllers.ResponseError(c, controllers.CodeUserExist)
@@ -51,7 +51,7 @@ func UserLoginHandler(c *gin.Context) {
 		return
 	}
 	//业务处理
-	Token, err := logic.Login(p)
+	Token, err := user.Login(p)
 	if err != nil {
 		if errors.Is(err, mysql.UserNotExist) {
 			controllers.ResponseError(c, controllers.CodeUserNotExist)
@@ -84,7 +84,7 @@ func UserUpdateHandler(c *gin.Context) {
 		return
 	}
 	//业务处理
-	if err := logic.Update(p, userid); err != nil {
+	if err := user.Update(p, userid); err != nil {
 		zap.L().Error("logic.Update with invalid param", zap.Error(err))
 		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
@@ -101,7 +101,7 @@ func UserGetInfoHandler(c *gin.Context) {
 		return
 	}
 	//业务处理
-	data, err := logic.GetInfo(userid)
+	data, err := user.GetInfo(userid)
 	if err != nil {
 		zap.L().Error("logic.GetInfo failed", zap.Error(err))
 		return

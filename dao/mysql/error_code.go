@@ -7,4 +7,5 @@ var (
 	UserNotExist    = errors.New("用户不存在")
 	InvalidPassword = errors.New("无效密码")
 	InvalidID       = errors.New("无效id")
+	AdminExist1     = errors.New("管理员已存在")
 )

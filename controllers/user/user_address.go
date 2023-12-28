@@ -2,7 +2,7 @@ package user
 
 import (
 	"newbeemall/controllers"
-	"newbeemall/logic"
+	"newbeemall/logic/user"
 	"newbeemall/models"
 	"strconv"
 
@@ -23,7 +23,7 @@ func AddressAddHandler(c *gin.Context) {
 		return
 	}
 	p.UserID = userid
-	if err := logic.AddressAdd(p); err != nil {
+	if err := user.AddressAdd(p); err != nil {
 		zap.L().Error("logic.AddressAdd failed", zap.Error(err))
 		return
 	}
@@ -36,7 +36,7 @@ func GetAddressListHandler(c *gin.Context) {
 		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
 	}
-	list, err := logic.GetAddressList(userid)
+	list, err := user.GetAddressList(userid)
 	if err != nil {
 		zap.L().Error("logic.GetAddressList failed", zap.Error(err))
 		return
@@ -57,7 +57,7 @@ func UpdateAddressHandler(c *gin.Context) {
 		return
 	}
 	p.UserID = userid
-	if err := logic.UpdateAddr(p); err != nil {
+	if err := user.UpdateAddr(p); err != nil {
 		zap.L().Error("logic.UpdateAddr failed", zap.Error(err))
 		return
 	}
@@ -72,7 +72,7 @@ func GetAddrDetailHandler(c *gin.Context) {
 		controllers.ResponseError(c, controllers.CodeInvalidParam)
 		return
 	}
-	data, err := logic.GetAddrDetail(id)
+	data, err := user.GetAddrDetail(id)
 	if err != nil {
 		zap.L().Error("logic.GetAddrDetail failed", zap.Error(err))
 		return
@@ -86,7 +86,7 @@ func GetDefaultAddrHandler(c *gin.Context) {
 		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
 	}
-	data, err := logic.GetDefAddr(userid)
+	data, err := user.GetDefAddr(userid)
 	if err != nil {
 		zap.L().Error("logic.GetDefAddr failed", zap.Error(err))
 		return
@@ -107,7 +107,7 @@ func DelAddrHandler(c *gin.Context) {
 		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
 	}
-	if err := logic.DelAddr(id, userid); err != nil {
+	if err := user.DelAddr(id, userid); err != nil {
 		zap.L().Error("logic.DelAddr failed", zap.Error(err))
 		return
 	}
