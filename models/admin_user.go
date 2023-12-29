@@ -14,3 +14,8 @@ type AdminUser struct {
 	Password  string `db:"password"`
 	AdminName string `db:"adminname"`
 }
+
+type AdminUpdate struct {
+	AdminName string `json:"adminname"`
+	Password  string `json:"password"`
+}

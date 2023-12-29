@@ -3,6 +3,7 @@ package manager
 import (
 	"newbeemall/dao/mysql"
 	"newbeemall/models"
+	"newbeemall/pkg/jwt"
 	"newbeemall/pkg/snowflake"
 
 	"go.uber.org/zap"
@@ -24,4 +25,16 @@ func AdminSignup(p *models.AdminSignup) (err error) {
 		return
 	}
 	return
+}
+
+func AdminLogin(p *models.AdminLogin) (Token string, err error) {
+	admin := &models.AdminUser{
+		Password:  p.Password,
+		AdminName: p.Adminname,
+	}
+	if err = mysql.AdminLogin(admin); err != nil {
+		zap.L().Error("登录失败", zap.Error(err))
+		return
+	}
+	return jwt.GenToken(admin.AdminID, admin.AdminName)
 }
