@@ -41,3 +41,15 @@ func AdminLogin(admin *models.AdminUser) (err error) {
 	}
 	return
 }
+
+func AdminUpdateName(p *models.AdminUpdate, adminid int64) (err error) {
+	sqlStr := `update admin_user set adminname=? where admin_id=?`
+	_, err = db.Exec(sqlStr, p.AdminName, adminid)
+	return
+}
+
+func AdminUpdatePassword(p *models.AdminUpdate, adminid int64) (err error) {
+	sqlStr := `update admin_user set password=? where admin_id=?`
+	_, err = db.Exec(sqlStr, p.Password, adminid)
+	return
+}

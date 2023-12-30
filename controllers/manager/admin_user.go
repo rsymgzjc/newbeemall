@@ -50,7 +50,7 @@ func AdminLoginHandler(c *gin.Context) {
 		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
 	}
-	controllers.ResponseSuccess(c, "管理员登录成功")
+	controllers.ResponseSuccess(c, token)
 }
 
 func AdminLogoutHandler(c *gin.Context) {
@@ -67,6 +67,41 @@ func AdminLogoutHandler(c *gin.Context) {
 func AdminUpdateNameHandler(c *gin.Context) {
 	p := new(models.AdminUpdate)
 	if err := c.ShouldBindJSON(p); err != nil {
-
+		zap.L().Error("Update with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
 	}
+	adminid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		controllers.ResponseError(c, controllers.CodeNeedLogin)
+		return
+	}
+	if err = manager.AdminUpdateName(p, adminid); err != nil {
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, "更新名字成功")
+}
+
+func AdminUpdatePasswprd(c *gin.Context) {
+	p := new(models.AdminUpdate)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("Update with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	adminid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		controllers.ResponseError(c, controllers.CodeNeedLogin)
+		return
+	}
+	if err = manager.AdminUpdatePassword(p, adminid); err != nil {
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, "更新密码成功")
+}
+
+func GetUsersListHandler(c *gin.Context) {
+
 }

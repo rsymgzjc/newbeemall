@@ -38,3 +38,11 @@ func AdminLogin(p *models.AdminLogin) (Token string, err error) {
 	}
 	return jwt.GenToken(admin.AdminID, admin.AdminName)
 }
+
+func AdminUpdateName(p *models.AdminUpdate, adminid int64) error {
+	return mysql.AdminUpdateName(p, adminid)
+}
+
+func AdminUpdatePassword(p *models.AdminUpdate, adminid int64) error {
+	return mysql.AdminUpdatePassword(p, adminid)
+}
