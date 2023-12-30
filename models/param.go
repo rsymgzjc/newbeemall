@@ -33,6 +33,7 @@ type ParamUserDetail struct {
 	Email        string `json:"email" db:"email"`
 	Introduction string `json:"introduction" db:"introduction"`
 	Gender       int8   `json:"gender" db:"gender"`
+	Lockflag     int8   `json:"lockflag" db:"lockflag"`
 }
 
 type UserAddress struct {

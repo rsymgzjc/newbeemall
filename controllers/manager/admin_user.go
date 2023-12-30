@@ -7,6 +7,7 @@ import (
 	"newbeemall/dao/redis"
 	"newbeemall/logic/manager"
 	"newbeemall/models"
+	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
@@ -103,5 +104,27 @@ func AdminUpdatePasswprd(c *gin.Context) {
 }
 
 func GetUsersListHandler(c *gin.Context) {
+	page, size := controllers.GetPageInfo(c)
+	data, err := manager.GetUsersList(page, size)
+	if err != nil {
+		zap.L().Error("logic.GetUserList with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, data)
+}
 
+func LockUserHandler(c *gin.Context) {
+	locks := c.Param("lockstatus")
+	lockstatus, err := strconv.ParseInt(locks, 10, 64)
+	if err != nil {
+		return
+	}
+	p := new(models.UserIds)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("Lock with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	manager.LockUsers(p, lockstatus)
 }

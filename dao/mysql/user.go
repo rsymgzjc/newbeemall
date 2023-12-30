@@ -22,7 +22,18 @@ func UserExist(username string) (err error) {
 	}
 	return
 }
-
+func IsUserLock(username string) (err error) {
+	sqlStr := `select count(user_id) from user where username=? and lockflag=0`
+	var count int
+	err = db.Get(&count, sqlStr, username)
+	if err != nil {
+		return
+	}
+	if count == 0 {
+		return UserNotExist
+	}
+	return
+}
 func encrptPassword(oPassword string) string {
 	h := md5.New()
 	h.Write([]byte(secret))

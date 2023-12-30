@@ -50,5 +50,7 @@ create table admin_user(
          UNIQUE KEY idx_user_id (admin_id) USING BTREE
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
 
+alter table user add lockflag tinyint(4) not null default 0;
+
 
 

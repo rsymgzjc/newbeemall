@@ -29,6 +29,10 @@ func SignUp(p *models.ParamSignUp) (err error) {
 }
 
 func Login(p *models.ParamLogin) (Token string, err error) {
+	if err = mysql.IsUserLock(p.Username); err != nil {
+		zap.L().Error("用户被封了", zap.Error(err))
+		return
+	}
 	user := &models.User{
 		UserName: p.Username,
 		Password: p.Password,

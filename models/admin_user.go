@@ -19,3 +19,7 @@ type AdminUpdate struct {
 	AdminName string `json:"adminname"`
 	Password  string `json:"password"`
 }
+
+type UserIds struct {
+	Ids []int64 `json:"ids" form:"ids"`
+}

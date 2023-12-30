@@ -46,3 +46,11 @@ func AdminUpdateName(p *models.AdminUpdate, adminid int64) error {
 func AdminUpdatePassword(p *models.AdminUpdate, adminid int64) error {
 	return mysql.AdminUpdatePassword(p, adminid)
 }
+
+func GetUsersList(page int64, size int64) (data []*models.ParamUserDetail, err error) {
+	return mysql.GetUsersList(page, size)
+}
+
+func LockUsers(p *models.UserIds, lock int64) (err error) {
+
+}
