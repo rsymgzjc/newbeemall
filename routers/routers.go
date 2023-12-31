@@ -25,6 +25,7 @@ func Setup() *gin.Engine {
 	managerGroup := r.Group("manage-api")
 	{
 		managerRouter.InitManageAdminUserRouter(managerGroup)
+		managerRouter.InitManageGoodsInfoRouter(managerGroup)
 	}
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

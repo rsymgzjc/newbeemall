@@ -7,6 +7,7 @@ import (
 	"newbeemall/dao/redis"
 	"newbeemall/logic/manager"
 	"newbeemall/models"
+	"path/filepath"
 	"strconv"
 	"strings"
 
@@ -103,8 +104,22 @@ func AdminUpdatePasswprd(c *gin.Context) {
 	controllers.ResponseSuccess(c, "更新密码成功")
 }
 
+func GetPageInfo(c *gin.Context) (int64, int64) {
+	PageStr := c.Query("page")
+	SizeStr := c.Query("size")
+	Page, err := strconv.ParseInt(PageStr, 10, 64)
+	if err != nil {
+		Page = 1
+	}
+	Size, err := strconv.ParseInt(SizeStr, 10, 64)
+	if err != nil {
+		Size = 10
+	}
+	return Page, Size
+}
+
 func GetUsersListHandler(c *gin.Context) {
-	page, size := controllers.GetPageInfo(c)
+	page, size := GetPageInfo(c)
 	data, err := manager.GetUsersList(page, size)
 	if err != nil {
 		zap.L().Error("logic.GetUserList with invalid param", zap.Error(err))
@@ -147,4 +162,21 @@ func GetAdminDetailHandler(c *gin.Context) {
 		return
 	}
 	controllers.ResponseSuccess(c, data)
+}
+
+func UploadFileHandler(c *gin.Context) {
+	//获取文件
+	file, err := c.FormFile("upload")
+	if err != nil {
+		zap.L().Error("File with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeInvalidParam)
+		return
+	}
+	dst := filepath.Join("A:", file.Filename)
+	err = c.SaveUploadedFile(file, dst)
+	if err != nil {
+		zap.L().Error("File with invalid param", zap.Error(err))
+		return
+	}
+	controllers.ResponseSuccess(c, dst)
 }

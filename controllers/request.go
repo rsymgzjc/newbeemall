@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"errors"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,17 +22,4 @@ func GetCurrentUser(c *gin.Context) (userID int64, err error) {
 		return
 	}
 	return
-}
-func GetPageInfo(c *gin.Context) (int64, int64) {
-	PageStr := c.Query("page")
-	SizeStr := c.Query("size")
-	Page, err := strconv.ParseInt(PageStr, 10, 64)
-	if err != nil {
-		Page = 1
-	}
-	Size, err := strconv.ParseInt(SizeStr, 10, 64)
-	if err != nil {
-		Size = 10
-	}
-	return Page, Size
 }
