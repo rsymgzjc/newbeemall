@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type AdminLogin struct {
 	Adminname string `json:"adminname" binding:"required"`
 	Password  string `json:"password" binding:"required"`
@@ -22,4 +24,9 @@ type AdminUpdate struct {
 
 type UserIds struct {
 	Ids []int64 `json:"ids" form:"ids"`
+}
+
+type AdminDetail struct {
+	AdminName  string    `json:"adminname" db:"adminname"`
+	CreateTime time.Time `json:"createtime" db:"create_time"`
 }

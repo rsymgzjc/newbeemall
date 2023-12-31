@@ -30,7 +30,7 @@ func IsUserLock(username string) (err error) {
 		return
 	}
 	if count == 0 {
-		return UserNotExist
+		return UserLocked
 	}
 	return
 }

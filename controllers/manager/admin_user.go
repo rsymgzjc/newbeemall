@@ -126,5 +126,25 @@ func LockUserHandler(c *gin.Context) {
 		controllers.ResponseError(c, controllers.CodeServerBusy)
 		return
 	}
-	manager.LockUsers(p, lockstatus)
+	if err := manager.LockUsers(p, lockstatus); err != nil {
+		zap.L().Error("manager.LockUsers failed", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, "操作成功")
+}
+
+func GetAdminDetailHandler(c *gin.Context) {
+	adminid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		controllers.ResponseError(c, controllers.CodeNeedLogin)
+		return
+	}
+	data, err := manager.GetAdminDetail(adminid)
+	if err != nil {
+		zap.L().Error("manager.GetAdminDetail failed", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, data)
 }

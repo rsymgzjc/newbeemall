@@ -52,5 +52,9 @@ func GetUsersList(page int64, size int64) (data []*models.ParamUserDetail, err e
 }
 
 func LockUsers(p *models.UserIds, lock int64) (err error) {
+	return mysql.LockUsers(p, lock)
+}
 
+func GetAdminDetail(adminid int64) (*models.AdminDetail, error) {
+	return mysql.GetAdminDetail(adminid)
 }

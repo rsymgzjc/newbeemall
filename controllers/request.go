@@ -24,7 +24,6 @@ func GetCurrentUser(c *gin.Context) (userID int64, err error) {
 	}
 	return
 }
-
 func GetPageInfo(c *gin.Context) (int64, int64) {
 	PageStr := c.Query("page")
 	SizeStr := c.Query("size")

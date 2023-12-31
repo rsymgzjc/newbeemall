@@ -57,7 +57,7 @@ func UserLoginHandler(c *gin.Context) {
 			controllers.ResponseError(c, controllers.CodeUserNotExist)
 			return
 		}
-		controllers.ResponseError(c, controllers.CodeServerBusy)
+		controllers.ResponseError(c, controllers.CodeUserLocked)
 		return
 	}
 	//添加Token到redis

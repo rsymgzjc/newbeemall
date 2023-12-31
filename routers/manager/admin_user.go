@@ -21,5 +21,6 @@ func (m *ManageAdminUserRouter) InitManageAdminUserRouter(r *gin.RouterGroup) {
 		r.PUT("/admin/password", manager.AdminUpdatePasswprd)      //修改密码
 		r.GET("/admin/users", manager.GetUsersListHandler)         //分页展示用户信息
 		r.PUT("/admin/users/:lockstatus", manager.LockUserHandler) //封锁用户
+		r.GET("/admin/profile", manager.GetAdminDetailHandler)     //获取管理员信息
 	}
 }

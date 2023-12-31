@@ -15,6 +15,7 @@ const (
 	CodeUsernameNull
 	CodeLogoutFailed
 	CodeAdminExist
+	CodeUserLocked
 )
 
 var codeMsgMap = map[ResCode]string{
@@ -29,6 +30,7 @@ var codeMsgMap = map[ResCode]string{
 	CodeUsernameNull:    "用户名为空",
 	CodeLogoutFailed:    "登出失败",
 	CodeAdminExist:      "管理员存在",
+	CodeUserLocked:      "用户被锁定",
 }
 
 func Msg(c ResCode) string {

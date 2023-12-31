@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"errors"
 	"newbeemall/models"
+
+	"github.com/jmoiron/sqlx"
 )
 
 func AdminExist(adminname string) (err error) {
@@ -58,5 +60,23 @@ func GetUsersList(page int64, size int64) (users []*models.ParamUserDetail, err 
 	users = make([]*models.ParamUserDetail, 0)
 	sqlStr := `select username,email,introduction,gender,lockflag from user order by create_time desc limit ?,?`
 	err = db.Select(&users, sqlStr, (page-1)*size, size)
+	return
+}
+
+func LockUsers(p *models.UserIds, locks int64) (err error) {
+	sqlStr := `update user set lockflag=? where user_id in (?)`
+	query, args, err := sqlx.In(sqlStr, locks, p.Ids)
+	if err != nil {
+		return err
+	}
+	query = db.Rebind(query)
+	_, err = db.Exec(query, args...)
+	return
+}
+
+func GetAdminDetail(adminid int64) (data *models.AdminDetail, err error) {
+	data = new(models.AdminDetail)
+	sqlStr := `select adminname,create_time from admin_user where admin_id=?`
+	err = db.Get(data, sqlStr, adminid)
 	return
 }
