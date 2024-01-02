@@ -104,22 +104,8 @@ func AdminUpdatePasswprd(c *gin.Context) {
 	controllers.ResponseSuccess(c, "更新密码成功")
 }
 
-func GetPageInfo(c *gin.Context) (int64, int64) {
-	PageStr := c.Query("page")
-	SizeStr := c.Query("size")
-	Page, err := strconv.ParseInt(PageStr, 10, 64)
-	if err != nil {
-		Page = 1
-	}
-	Size, err := strconv.ParseInt(SizeStr, 10, 64)
-	if err != nil {
-		Size = 10
-	}
-	return Page, Size
-}
-
 func GetUsersListHandler(c *gin.Context) {
-	page, size := GetPageInfo(c)
+	page, size := controllers.GetPageInfo(c)
 	data, err := manager.GetUsersList(page, size)
 	if err != nil {
 		zap.L().Error("logic.GetUserList with invalid param", zap.Error(err))

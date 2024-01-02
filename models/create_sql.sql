@@ -72,5 +72,17 @@ create table goods_info(
        UNIQUE KEY idx_user_id (goodscategory_id) USING BTREE
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
 
+create table goods_category(
+       category_id bigint(20) not null auto_increment,
+       categoryname varchar(64) collate utf8mb4_general_ci not null,
+       categorylevel int(10) not null,
+       parentid int(10) not null,
+       categoryrank int(10) null,
+       isdeleted tinyint(4) not null default '0',
+       create_time timestamp null default current_timestamp,
+       update_time timestamp null default current_timestamp on update current_timestamp,
+       PRIMARY KEY  (category_id),
+)engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
+
 
 
