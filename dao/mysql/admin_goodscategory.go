@@ -34,3 +34,10 @@ func GetCategoryList(p *models.ParamSearchCategory) (data []*models.AdminGoodsCa
 	err = db.Select(&data, sqlStr, p.CategoryLevel, p.ParentId, (p.Page-1)*p.Size, p.Size)
 	return
 }
+
+func GetCategory(id int64) (data *models.AdminGoodsCategory, err error) {
+	data = new(models.AdminGoodsCategory)
+	sqlStr := `select category_id,categorylevel,parentid,categoryname,categoryrank,isdeleted from goods_category where category_id=?`
+	err = db.Get(data, sqlStr, id)
+	return
+}

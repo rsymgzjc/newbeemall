@@ -16,5 +16,6 @@ func (m *ManageGoodsCategoryRouter) InitManageGoodsCategoryRouter(r *gin.RouterG
 		r.POST("/categories", manager.CreateCategoryHandler) //创建商品类别
 		r.PUT("/categories", manager.UpdateCategoryHandler)  //更新商品类别
 		r.GET("/categories", manager.GetCategoryListHandler) //获取分类信息
+		r.GET("/categories/:id", manager.GetCategoryHandler) //根据id获取分类
 	}
 }

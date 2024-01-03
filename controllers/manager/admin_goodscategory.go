@@ -6,6 +6,7 @@ import (
 	"newbeemall/dao/mysql"
 	"newbeemall/logic/manager"
 	"newbeemall/models"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -61,4 +62,19 @@ func GetCategoryListHandler(c *gin.Context) {
 		return
 	}
 	controllers.ResponseSuccess(c, datas)
+}
+
+func GetCategoryHandler(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		return
+	}
+	data, err := manager.GetCategory(id)
+	if err != nil {
+		zap.L().Error("manager.GetCategory with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, data)
 }

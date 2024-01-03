@@ -35,3 +35,7 @@ func UpdateCategory(p *models.AdminGoodsCategory) (err error) {
 func GetCategoryList(p *models.ParamSearchCategory) ([]*models.AdminGoodsCategory, error) {
 	return mysql.GetCategoryList(p)
 }
+
+func GetCategory(id int64) (*models.AdminGoodsCategory, error) {
+	return mysql.GetCategory(id)
+}
