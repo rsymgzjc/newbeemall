@@ -21,3 +21,16 @@ func CreateCategory(p *models.AdminGoodsCategory) (err error) {
 	_, err = db.Exec(sqlStr, p.CategoryName, p.CategoryLevel, p.ParentId, p.CategoryRank, p.IsDeleted)
 	return
 }
+
+func UpdateCategory(p *models.AdminGoodsCategory) (err error) {
+	sqlStr := `update goods_category set categoryname=? where category_id=? `
+	_, err = db.Exec(sqlStr, p.CategoryName, p.CategoryID)
+	return
+}
+
+func GetCategoryList(p *models.ParamSearchCategory) (data []*models.AdminGoodsCategory, err error) {
+	sqlStr := `select category_id,categorylevel,parentid,categoryname,categoryrank,isdeleted from goods_category where categorylevel=? and parentid=? limit ?,?`
+	data = make([]*models.AdminGoodsCategory, 0)
+	err = db.Select(&data, sqlStr, p.CategoryLevel, p.ParentId, (p.Page-1)*p.Size, p.Size)
+	return
+}

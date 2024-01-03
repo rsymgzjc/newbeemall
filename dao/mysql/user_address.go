@@ -44,7 +44,7 @@ func ToDefaultAddr(userid int64) (err error) {
 }
 
 func GetAddressList(userid int64) (list []*models.UserAddressList, err error) {
-	sqlStr := `select username, userphone,provincename, cityname, regionname, detailaddress from user_address where user_id=?`
+	sqlStr := `select user_id,username, userphone,provincename, cityname, regionname, detailaddress from user_address where user_id=?`
 	err = db.Select(&list, sqlStr, userid)
 	if errors.Is(err, sql.ErrNoRows) {
 		zap.L().Warn("未添加地址")
@@ -61,14 +61,14 @@ func UpdateAddr(p *models.UpdateAddr) (err error) {
 
 func GetAddrDetail(id int64) (data *models.UserAddrDetail, err error) {
 	data = new(models.UserAddrDetail)
-	sqlStr := `select username,userphone,defaultflag,provincename,cityname,regionname,detailaddress from user_address where address_id=?`
+	sqlStr := `select address_id,user_id,username,userphone,defaultflag,provincename,cityname,regionname,detailaddress from user_address where address_id=?`
 	err = db.Get(data, sqlStr, id)
 	return
 }
 
 func GetDefAddr(userid int64) (data *models.UserAddressList, err error) {
 	data = new(models.UserAddressList)
-	sqlStr := `select username,userphone,provincename,cityname,regionname,detailaddress from user_address where defaultflag=1 and user_id=?`
+	sqlStr := `select user_id,username,userphone,provincename,cityname,regionname,detailaddress from user_address where defaultflag=1 and user_id=?`
 	err = db.Get(data, sqlStr, userid)
 	if errors.Is(err, sql.ErrNoRows) {
 		zap.L().Warn("没有默认地址")

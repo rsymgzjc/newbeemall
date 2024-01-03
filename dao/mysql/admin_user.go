@@ -58,7 +58,7 @@ func AdminUpdatePassword(p *models.AdminUpdate, adminid int64) (err error) {
 
 func GetUsersList(page int64, size int64) (users []*models.ParamUserDetail, err error) {
 	users = make([]*models.ParamUserDetail, 0)
-	sqlStr := `select username,email,introduction,gender,lockflag from user order by create_time desc limit ?,?`
+	sqlStr := `select user_id,username,email,introduction,gender,lockflag from user order by create_time desc limit ?,?`
 	err = db.Select(&users, sqlStr, (page-1)*size, size)
 	return
 }

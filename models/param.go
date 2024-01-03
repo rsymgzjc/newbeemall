@@ -29,6 +29,7 @@ type ParamUpdate struct {
 }
 
 type ParamUserDetail struct {
+	UserID       int64  `json:"userid" db:"user_id"`
 	UserName     string `json:"username" db:"username"`
 	Email        string `json:"email" db:"email"`
 	Introduction string `json:"introduction" db:"introduction"`
@@ -48,6 +49,7 @@ type UserAddress struct {
 }
 
 type UserAddressList struct {
+	UserID        int64  `json:"userid" db:"user_id"`
 	UserName      string `json:"username" db:"username"`
 	UserPhone     string `json:"userphone"  db:"userphone"`
 	ProvinceName  string `json:"provincename" binding:"required" db:"provincename"`
@@ -69,6 +71,8 @@ type UpdateAddr struct {
 }
 
 type UserAddrDetail struct {
+	AddressID     int    `json:"addressid"  db:"address_id"`
+	UserID        int64  `json:"userid"  db:"user_id"`
 	UserName      string `json:"username" binding:"required" db:"username"`
 	UserPhone     string `json:"userphone" binding:"required" db:"userphone"`
 	DefaultFlag   int8   `json:"defaultflag"  db:"defaultflag"`
