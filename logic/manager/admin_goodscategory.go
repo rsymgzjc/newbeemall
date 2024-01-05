@@ -39,3 +39,7 @@ func GetCategoryList(p *models.ParamSearchCategory) ([]*models.AdminGoodsCategor
 func GetCategory(id int64) (*models.AdminGoodsCategory, error) {
 	return mysql.GetCategory(id)
 }
+
+func DelCategory(p *models.UserIds) error {
+	return mysql.DelCategory(p)
+}

@@ -1,6 +1,7 @@
 package models
 
 type ParamGoodsInfo struct {
+	GoodsID         int64  `json:"goodsid" db:"goods_id"`
 	GoodsName       string `json:"goodsname" db:"goodsname"`
 	GoodsIntro      string `json:"goodsintro" db:"goodsintro"`
 	GoodsCategoryID int64  `json:"goodscategoryid" db:"goodscategory_id"`

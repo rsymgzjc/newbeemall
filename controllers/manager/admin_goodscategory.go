@@ -78,3 +78,18 @@ func GetCategoryHandler(c *gin.Context) {
 	}
 	controllers.ResponseSuccess(c, data)
 }
+
+func DelCategoryHandler(c *gin.Context) {
+	p := new(models.UserIds)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("DelCategory with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeInvalidParam)
+		return
+	}
+	if err := manager.DelCategory(p); err != nil {
+		zap.L().Error("manager.DelCategory with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, "删除成功")
+}
