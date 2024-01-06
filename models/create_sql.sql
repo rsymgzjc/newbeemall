@@ -72,6 +72,9 @@ create table goods_info(
        UNIQUE KEY idx_user_id (goodscategory_id) USING BTREE
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
 
+alter table goods_info drop index idx_user_id;
+alter table goods_info drop index idx_username;
+
 create table goods_category(
        category_id bigint(20) not null auto_increment,
        categoryname varchar(64) collate utf8mb4_general_ci not null,

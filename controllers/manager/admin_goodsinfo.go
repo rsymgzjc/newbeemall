@@ -44,3 +44,50 @@ func ChangeGoodsStatusHandler(c *gin.Context) {
 	}
 	controllers.ResponseSuccess(c, "操作成功")
 }
+
+func UpdateGoodsInfoHandler(c *gin.Context) {
+	p := new(models.ParamGoodsInfo)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("UpdateGoodsInfo with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeInvalidParam)
+		return
+	}
+	if err := manager.UpdateGoodsInfo(p); err != nil {
+		zap.L().Error("manager.UpdateGoodsInfo with some problems", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, "更新商品成功")
+}
+
+func GetGoodsInfoByIDHandler(c *gin.Context) {
+	idStr := c.Param("id")
+	id, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		return
+	}
+	data, err := manager.GetGoodInfoByID(id)
+	if err != nil {
+		zap.L().Error("manager.GetGoodInfoByID with some problems", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, data)
+}
+
+func GetGoodsListHandler(c *gin.Context) {
+	status := c.Query("goodssellstatus")
+	p := new(models.GoodsInfoList)
+	if err := c.ShouldBindQuery(p); err != nil {
+		zap.L().Error("GetGoodsList with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeInvalidParam)
+		return
+	}
+	datas, err := manager.GetGoodsList(p, status)
+	if err != nil {
+		zap.L().Error("manager.GetGoodsList with some problems", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, datas)
+}

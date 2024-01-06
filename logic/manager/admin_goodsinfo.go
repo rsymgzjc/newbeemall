@@ -32,3 +32,15 @@ func CreateGoodsInfo(p *models.ParamGoodsInfo) error {
 func ChangeGoodsStatus(p *models.UserIds, status int64) error {
 	return mysql.ChangeGoodsStatus(p, status)
 }
+
+func UpdateGoodsInfo(p *models.ParamGoodsInfo) error {
+	return mysql.UpdateGoodsInfo(p)
+}
+
+func GetGoodInfoByID(id int64) (*models.ParamGoodsInfo, error) {
+	return mysql.GetGoodsInfoByID(id)
+}
+
+func GetGoodsList(p *models.GoodsInfoList, status string) ([]*models.ParamGoodsInfo, error) {
+	return mysql.GetGoodsList(p, status)
+}

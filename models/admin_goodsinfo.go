@@ -14,3 +14,9 @@ type ParamGoodsInfo struct {
 	Tag             string `json:"tag" db:"tag"`
 	GoodsSellStatus int    `json:"goodssellstatus" db:"goodssellstatus"`
 }
+
+type GoodsInfoList struct {
+	Page      int64  `json:"page" form:"page"`
+	Size      int64  `json:"size" form:"size"`
+	GoodsName string `json:"goodsname" form:"goodsname" db:"goodsname"`
+}
