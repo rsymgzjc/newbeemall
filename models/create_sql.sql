@@ -88,4 +88,13 @@ create table goods_category(
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
 alter table goods_category modify categoryrank int(10) not null default '0';
 
-
+create table carousel(
+       carousel_id bigint(20) not null auto_increment,
+       carouselurl varchar(64) collate utf8mb4_general_ci not null,
+       redirecturl varchar(64) collate utf8mb4_general_ci not null,
+       carouselrank int(10) null,
+       isdeleted tinyint(4) not null default '0',
+       create_time timestamp null default current_timestamp,
+       update_time timestamp null default current_timestamp on update current_timestamp,
+       PRIMARY KEY  (carousel_id)
+)engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
