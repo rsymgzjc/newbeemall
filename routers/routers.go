@@ -28,6 +28,7 @@ func Setup() *gin.Engine {
 		managerRouter.InitManageGoodsInfoRouter(managerGroup)
 		managerRouter.InitManageGoodsCategoryRouter(managerGroup)
 		managerRouter.InitManageCarouselRouter(managerGroup)
+		managerRouter.InitManageIndexConfigRouter(managerGroup)
 	}
 	r.NoRoute(func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{

@@ -13,5 +13,7 @@ var (
 	GoodsCategoryExist1    = errors.New("商品类别已存在")
 	GoodsCategoryNotExist1 = errors.New("商品类别不存在")
 	GoodsInfoExists        = errors.New("商品信息已存在")
+	GoodsInfoNotExists     = errors.New("商品信息不存在")
 	CarouselNotExists      = errors.New("轮播图不存在")
+	IndexConfigExist       = errors.New("已存在相同的首页配置项")
 )

@@ -17,6 +17,15 @@ func GoodsInfoExist(name string, categoryid int64) (err error) {
 	return
 }
 
+func GoodsInfoNotExist(id int64) (err error) {
+	var count int
+	sqlStr := `select count(goods_id) from goods_info where goods_id=? `
+	err = db.Get(&count, sqlStr, id)
+	if count < 1 {
+		return GoodsInfoNotExists
+	}
+	return
+}
 func CreateGoodsInfo(p *models.ParamGoodsInfo) (err error) {
 	sqlStr := `insert into goods_info(goodsname, goodsintro, goodscategory_id, goodscoverimg, goodsdetail, originprice, sellingprice, stocknum, tag,goodssellstatus) 
 				VALUES(?,?,?,?,?,?,?,?,?,?) `

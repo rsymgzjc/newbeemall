@@ -98,3 +98,16 @@ create table carousel(
        update_time timestamp null default current_timestamp on update current_timestamp,
        PRIMARY KEY  (carousel_id)
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
+
+create table indexconfig(
+         config_id bigint(20) not null auto_increment,
+         configname varchar(40) not null ,
+         configtype tinyint(4) collate utf8mb4_general_ci not null,
+         goods_id bigint(20) not null default '0',
+         redirecturl varchar(64) collate utf8mb4_general_ci not null,
+         configrank int(10) null,
+         isdeleted tinyint(4) not null default '0',
+         create_time timestamp null default current_timestamp,
+         update_time timestamp null default current_timestamp on update current_timestamp,
+         PRIMARY KEY  (config_id)
+)engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
