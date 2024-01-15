@@ -17,3 +17,12 @@ type ParamAddIndexConfig struct {
 	RedirectURL string `json:"redirect_url" `
 	ConfigRank  int    `json:"config_rank" `
 }
+
+type ParamUpdateIndex struct {
+	ConfigID    int64  `json:"config_id" `
+	ConfigName  string `json:"config_name" `
+	ConfigType  int8   `json:"config_type" `
+	GoodsID     int64  `json:"goods_id" `
+	RedirectURL string `json:"redirect_url" `
+	ConfigRank  int    `json:"config_rank" `
+}

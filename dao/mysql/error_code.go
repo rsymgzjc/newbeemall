@@ -16,4 +16,5 @@ var (
 	GoodsInfoNotExists     = errors.New("商品信息不存在")
 	CarouselNotExists      = errors.New("轮播图不存在")
 	IndexConfigExist       = errors.New("已存在相同的首页配置项")
+	IndexConfigNotExist    = errors.New("首页配置项不存在")
 )
