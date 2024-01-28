@@ -22,5 +22,10 @@ func AddShopCartHandler(c *gin.Context) {
 		controllers.ResponseError(c, controllers.CodeInvalidParam)
 		return
 	}
-	user.AddShopCart(userid, p)
+	if err := user.AddShopCart(userid, p); err != nil {
+		zap.L().Error("AddShopCart with some problems", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, "添加成功")
 }

@@ -25,5 +25,19 @@ func AddShopCart(userid int64, p *models.ParamAddCart) (err error) {
 		zap.L().Error("没有此商品", zap.Error(err))
 		return
 	}
-
+	err = mysql.ExceedGoodsTotal(userid)
+	if errors.Is(err, mysql.ExceedCartTotal) {
+		zap.L().Error("超出购物车总量", zap.Error(err))
+		return
+	}
+	shopcart := &models.ParamShopCart{
+		UserID:     userid,
+		GoodsCount: p.GoodsCount,
+		GoodsID:    p.GoodsID,
+	}
+	if err = mysql.AddCartGoods(shopcart); err != nil {
+		zap.L().Error("添加购物车失败", zap.Error(err))
+		return
+	}
+	return
 }
