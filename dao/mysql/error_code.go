@@ -17,4 +17,5 @@ var (
 	CarouselNotExists      = errors.New("轮播图不存在")
 	IndexConfigExist       = errors.New("已存在相同的首页配置项")
 	IndexConfigNotExist    = errors.New("首页配置项不存在")
+	CartGoodsExists        = errors.New("商品已存在，不许重复添加！")
 )

@@ -111,3 +111,31 @@ create table indexconfig(
          update_time timestamp null default current_timestamp on update current_timestamp,
          PRIMARY KEY  (config_id)
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
+
+create table mallorder(
+        order_id bigint(20) not null ,
+        ordernum varchar(20) not null ,
+        user_id bigint(20) not null ,
+        totalprice int(10) not null ,
+        paystatus tinyint(4) not null ,
+        paytype tinyint(4) not null ,
+        pay_time timestamp null,
+        configrank int(10) null,
+        orderstatus tinyint(4) not null ,
+        extrainfo varchar(100) not null  default '',
+        isdeleted tinyint(4) not null default '0',
+        create_time timestamp null default current_timestamp,
+        update_time timestamp null default current_timestamp on update current_timestamp,
+        PRIMARY KEY  (order_id)
+)engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
+
+create table shoppingcart(
+      cart_id bigint(20) not null auto_increment,
+      user_id bigint(20) not null ,
+      goods_id bigint(20) not null,
+      goods_count int(10) not null ,
+      isdeleted tinyint(4) not null default '0',
+      create_time timestamp null default current_timestamp,
+      update_time timestamp null default current_timestamp on update current_timestamp,
+      PRIMARY KEY  (cart_id)
+)engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
