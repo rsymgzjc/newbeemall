@@ -27,3 +27,25 @@ func AddCartGoods(p *models.ParamShopCart) (err error) {
 	_, err = db.Exec(sqlStr, p.UserID, p.GoodsID, p.GoodsCount)
 	return
 }
+
+func CartGoodsNotExists(cartid int64) (err error) {
+	var count int
+	sqlStr := `select count(cart_id) from shoppingcart where cart_id=? and isdeleted=0`
+	err = db.Get(&count, sqlStr, cartid)
+	if count < 1 {
+		return CartGoodsNotExist
+	}
+	return
+}
+
+func UpdateShopCart(p *models.ParamUpdateShopCart) (err error) {
+	sqlStr := `update shoppingcart set goods_count=? where cart_id=? and isdeleted=0 `
+	_, err = db.Exec(sqlStr, p.GoodsCount, p.CartID)
+	return
+}
+
+func DeleteShopCart(cartid int64) (err error) {
+	sqlStr := `update shoppingcart set isdeleted=1 where cart_id=? and isdeleted=0 `
+	_, err = db.Exec(sqlStr, cartid)
+	return
+}

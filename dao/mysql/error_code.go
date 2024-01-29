@@ -19,4 +19,5 @@ var (
 	IndexConfigNotExist    = errors.New("首页配置项不存在")
 	CartGoodsExists        = errors.New("商品已存在，不许重复添加！")
 	ExceedCartTotal        = errors.New("超出购物车最大容量")
+	CartGoodsNotExist      = errors.New("商品不存在")
 )

@@ -41,3 +41,32 @@ func AddShopCart(userid int64, p *models.ParamAddCart) (err error) {
 	}
 	return
 }
+
+func UpdateShopCart(p *models.ParamUpdateShopCart) (err error) {
+	if p.GoodsCount > 5 {
+		return errors.New("超出商品的最大购买数量")
+	}
+	err = mysql.CartGoodsNotExists(p.CartID)
+	if errors.Is(err, mysql.CartGoodsNotExist) {
+		zap.L().Error("商品不存在", zap.Error(err))
+		return
+	}
+	if err = mysql.UpdateShopCart(p); err != nil {
+		zap.L().Error("更新购物车失败", zap.Error(err))
+		return
+	}
+	return
+}
+
+func DeleteShopCart(cartid int64) (err error) {
+	err = mysql.CartGoodsNotExists(cartid)
+	if errors.Is(err, mysql.CartGoodsNotExist) {
+		zap.L().Error("商品不存在", zap.Error(err))
+		return
+	}
+	if err := mysql.DeleteShopCart(cartid); err != nil {
+		zap.L().Error("删除购物车商品失败", zap.Error(err))
+		return
+	}
+	return
+}

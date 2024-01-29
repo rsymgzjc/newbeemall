@@ -11,3 +11,8 @@ type ParamShopCart struct {
 	GoodsCount int   `json:"goods_count" db:"goods_count"`
 	GoodsID    int64 `json:"goods_id" db:"goods_id"`
 }
+
+type ParamUpdateShopCart struct {
+	CartID     int64 `json:"cart_id" db:"cart_id"`
+	GoodsCount int   `json:"goods_count" db:"goods_count"`
+}
