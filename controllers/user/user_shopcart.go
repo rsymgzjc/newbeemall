@@ -61,5 +61,35 @@ func DeleteShopCartHandler(c *gin.Context) {
 }
 
 func GetShopCartList(c *gin.Context) {
+	userid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		return
+	}
+	datas, err := user.GetShopCartList(userid)
+	if err != nil {
+		zap.L().Error("GetShopCartList with some problems", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, datas)
+}
 
+func GetShopCartByIDs(c *gin.Context) {
+	p := new(models.UserIds)
+	if err := c.ShouldBindJSON(p); err != nil {
+		zap.L().Error("GetShopCartByIDs with invalid param", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeInvalidParam)
+		return
+	}
+	userid, err := controllers.GetCurrentUser(c)
+	if err != nil {
+		return
+	}
+	datas, err := user.GetShopCart(p, userid)
+	if err != nil {
+		zap.L().Error("GetShopCartList with some problems", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, datas)
 }

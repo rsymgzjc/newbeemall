@@ -70,3 +70,45 @@ func DeleteShopCart(cartid int64) (err error) {
 	}
 	return
 }
+
+func GetShopCartList(userid int64) (datas []*models.ShopCartDetail, err error) {
+	CartGoods, err := mysql.GetCartGoods(userid)
+	if err != nil {
+		return
+	}
+	datas = make([]*models.ShopCartDetail, 0)
+	for _, CartGood := range CartGoods {
+		good, err := mysql.GetGoodsInfoByID(CartGood.GoodsID)
+		if err != nil {
+			zap.L().Error("GetGoodsInfoByID failed", zap.Error(err))
+			return
+		}
+		CartDetail := &models.ShopCartDetail{
+			ParamGoodsInfo: good,
+			ParamShopCart:  CartGood,
+		}
+		datas = append(datas, CartDetail)
+	}
+	return
+}
+
+func GetShopCart(p *models.UserIds, userid int64) (datas []*models.ShopCartDetail, err error) {
+	CartGoods, err := mysql.GetCartGoodsByids(p, userid)
+	if err != nil {
+		return
+	}
+	datas = make([]*models.ShopCartDetail, 0)
+	for _, CartGood := range CartGoods {
+		good, err := mysql.GetGoodsInfoByID(CartGood.GoodsID)
+		if err != nil {
+			zap.L().Error("GetGoodsInfoByID failed", zap.Error(err))
+			return
+		}
+		CartDetail := &models.ShopCartDetail{
+			ParamGoodsInfo: good,
+			ParamShopCart:  CartGood,
+		}
+		datas = append(datas, CartDetail)
+	}
+	return
+}
