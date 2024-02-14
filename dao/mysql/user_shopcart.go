@@ -1,8 +1,9 @@
 package mysql
 
 import (
-	"github.com/jmoiron/sqlx"
 	"newbeemall/models"
+
+	"github.com/jmoiron/sqlx"
 )
 
 func IsCartGoodsExists(userid int64, goodsid int64) (err error) {
@@ -62,8 +63,8 @@ func GetCartGoods(userid int64) (datas []*models.ParamShopCart, err error) {
 
 func GetCartGoodsByids(p *models.UserIds, userid int64) (datas []*models.ParamShopCart, err error) {
 	datas = make([]*models.ParamShopCart, 0)
-	sqlStr := `select cart_id,user_id,goods_id,goods_count from shoppingcart where user_id ? and isdeleted=0 and cart_id in (?)`
-	query, args, err := sqlx.In(sqlStr, p.Ids, userid)
+	sqlStr := `select cart_id,user_id,goods_id,goods_count from shoppingcart where user_id =? and isdeleted=0 and cart_id in (?)`
+	query, args, err := sqlx.In(sqlStr, userid, p.Ids)
 	if err != nil {
 		return
 	}

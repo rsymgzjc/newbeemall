@@ -90,3 +90,16 @@ func GetGoodsList(p *models.GoodsInfoList, status string) (datas []*models.Param
 		}
 	}
 }
+
+func GetGoodsInfo(goodsids []int64) (datas []*models.ParamGoodsInfo, err error) {
+	datas = make([]*models.ParamGoodsInfo, 0)
+	sqlStr := `select goods_id,goodsname,goodsintro,goodscategory_id,goodscoverimg,goodsdetail,originprice,sellingprice,stocknum,tag,goodssellstatus from goods_info 
+ 				where goods_id in (?)`
+	query, args, err := sqlx.In(sqlStr, goodsids)
+	if err != nil {
+		return
+	}
+	query = db.Rebind(query)
+	err = db.Select(&datas, query, args...)
+	return
+}

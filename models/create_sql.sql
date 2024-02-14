@@ -129,6 +129,9 @@ create table mallorder(
         PRIMARY KEY  (order_id)
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
 
+alter table mallorder modify order_id bigint(20) not null auto_increment ;
+alter table mallorder modify ordernum bigint(20) not null;
+
 create table shoppingcart(
       cart_id bigint(20) not null auto_increment,
       user_id bigint(20) not null ,
