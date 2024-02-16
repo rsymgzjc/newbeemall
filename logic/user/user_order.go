@@ -4,6 +4,7 @@ import (
 	"newbeemall/dao/mysql"
 	"newbeemall/models"
 	"newbeemall/pkg/snowflake"
+	"time"
 
 	"go.uber.org/zap"
 )
@@ -87,6 +88,41 @@ func SaveOrder(p *models.ParamOrder, userid int64) (err error) {
 				return
 			}
 		}
+	}
+	return
+}
+
+func PaySuccess(ordernum int64, paytype int) (err error) {
+	if err = mysql.OrderStatusisone(ordernum); err != nil {
+		zap.L().Error("订单状态异常", zap.Error(err))
+		return
+	}
+	order := &models.ParamOrders{
+		OrderNum:    ordernum,
+		PayStatus:   1,
+		PayType:     paytype,
+		PayTime:     time.Now(),
+		OrderStatus: 1,
+	}
+	if err = mysql.OrderPaySuccess(order); err != nil {
+		zap.L().Error("支付订单失败", zap.Error(err))
+		return
+	}
+	return
+}
+func FinishOrder(ordernum int64) (err error) {
+	if err = mysql.IsOrderExists(ordernum); err != nil {
+		zap.L().Error("未查询到记录", zap.Error(err))
+		return
+	}
+	order := &models.ParamOrders{
+		OrderNum:    ordernum,
+		OrderStatus: 4,
+		UpdateTime:  time.Now(),
+	}
+	if err = mysql.FinishOrder(order); err != nil {
+		zap.L().Error("签收订单失败", zap.Error(err))
+		return
 	}
 	return
 }
