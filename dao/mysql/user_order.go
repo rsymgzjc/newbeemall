@@ -64,3 +64,33 @@ func FinishOrder(order *models.ParamOrders) (err error) {
 	_, err = db.Exec(sqlStr, order.OrderStatus, order.UpdateTime, order.OrderNum)
 	return
 }
+
+func JudgeStatus(ordernum int64) (err error) {
+	var orderstatus int
+	sqlStr := `select orderstatus from mallorder where isdeleted=0 and ordernum=?`
+	err = db.Get(&orderstatus, sqlStr, ordernum)
+	if orderstatus == 4 || orderstatus == -1 || orderstatus == -2 || orderstatus == -3 {
+		return errors.New("订单状态异常")
+	}
+	return
+}
+
+func CancelOrder(order *models.ParamOrders) (err error) {
+	sqlStr := `update mallorder set orderstatus=? ,update_time=? where ordernum=? and isdeleted=0`
+	_, err = db.Exec(sqlStr, order.OrderStatus, order.UpdateTime, order.OrderNum)
+	return
+}
+
+func GetOrderDetail(ordernum int64) (data *models.ParamOrders, err error) {
+	data = new(models.ParamOrders)
+	sqlStr := `select * from mallorder where ordernum=? and isdeleted=0`
+	err = db.Get(data, sqlStr, ordernum)
+	return
+}
+
+func GetOrderList(page, size, userid int64) (datas []*models.ParamOrders, err error) {
+	datas = make([]*models.ParamOrders, 0)
+	sqlStr := `select * from mallorder where user_id=? and isdeleted=0 order by update_time desc limit ?,?`
+	err = db.Select(&datas, sqlStr, userid, (page-1)*size, size)
+	return
+}

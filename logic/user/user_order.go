@@ -126,3 +126,36 @@ func FinishOrder(ordernum int64) (err error) {
 	}
 	return
 }
+
+func CancelOrder(ordernum int64) (err error) {
+	if err = mysql.IsOrderExists(ordernum); err != nil {
+		zap.L().Error("未查询到记录", zap.Error(err))
+		return
+	}
+	if err = mysql.JudgeStatus(ordernum); err != nil {
+		zap.L().Error("订单状态异常", zap.Error(err))
+		return
+	}
+	order := &models.ParamOrders{
+		OrderNum:    ordernum,
+		OrderStatus: -1,
+		UpdateTime:  time.Now(),
+	}
+	if err = mysql.CancelOrder(order); err != nil {
+		zap.L().Error("取消订单失败", zap.Error(err))
+		return
+	}
+	return
+}
+
+func GetOrderDetail(ordernum int64) (data *models.ParamOrders, err error) {
+	if err = mysql.IsOrderExists(ordernum); err != nil {
+		zap.L().Error("未查询到记录", zap.Error(err))
+		return
+	}
+	return mysql.GetOrderDetail(ordernum)
+}
+
+func GetOrderList(page int64, size int64, userid int64) (datas []*models.ParamOrders, err error) {
+	return mysql.GetOrderList(page, size, userid)
+}
