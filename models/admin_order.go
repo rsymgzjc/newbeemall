@@ -21,3 +21,9 @@ type ParamOrder struct {
 	Ids       []int64 `json:"ids" form:"ids" `
 	AddressId int64   `json:"address_id" form:"address_id"`
 }
+
+type ParamOrderStatus struct {
+	OrderId     int64 `json:"order_id" form:"orderid" db:"order_id"`
+	OrderStatus int   `json:"orderstatus" form:"orderstatus" db:"orderstatus"`
+	IsDeleted   int   `json:"isdeleted" form:"isdeleted" db:"isdeleted"`
+}
