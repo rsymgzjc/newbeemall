@@ -28,3 +28,25 @@ func CheckDoneOrder(ids []int64) (err error) {
 	_, err = db.Exec(query, args...)
 	return
 }
+
+func CheckOutOrder(ids []int64) (err error) {
+	sqlStr := `update mallorder set orderstatus =3 where order_id in (?)`
+	query, args, err := sqlx.In(sqlStr, ids)
+	if err != nil {
+		return
+	}
+	query = db.Rebind(query)
+	_, err = db.Exec(query, args...)
+	return
+}
+
+func CloseOrderOrder(ids []int64) (err error) {
+	sqlStr := `update mallorder set orderstatus =-3 where order_id in (?)`
+	query, args, err := sqlx.In(sqlStr, ids)
+	if err != nil {
+		return
+	}
+	query = db.Rebind(query)
+	_, err = db.Exec(query, args...)
+	return
+}
