@@ -27,3 +27,22 @@ type ParamOrderStatus struct {
 	OrderStatus int   `json:"orderstatus" form:"orderstatus" db:"orderstatus"`
 	IsDeleted   int   `json:"isdeleted" form:"isdeleted" db:"isdeleted"`
 }
+
+type ParamOrderItem struct {
+	OrderId       int64  `json:"order_id"  db:"order_id"`
+	GoodsID       int64  `json:"goodsid" db:"goods_id"`
+	GoodsName     string `json:"goodsname" db:"goodsname"`
+	GoodsCoverImg string `json:"goodscoverimg" db:"goodscoverimg"`
+	SellingPrice  int    `json:"sellingprice" db:"sellingprice"`
+	GoodsCount    int    `json:"goods_count" db:"goods_count"`
+}
+
+type OrderDetail struct {
+	OrderId     int64             `json:"order_id"  db:"order_id"`
+	OrderNum    int64             `json:"ordernum" db:"ordernum"`
+	TotalPrice  int               `json:"totalprice"  db:"totalprice"`
+	PayType     int               `json:"payType"  db:"paytype"`
+	OrderStatus int               `json:"orderstatus" db:"orderstatus"`
+	CreateTime  time.Time         `json:"createtime" db:"create_time"`
+	OrderItem   []*ParamOrderItem `json:"orderitem"`
+}

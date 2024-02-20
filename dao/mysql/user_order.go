@@ -3,6 +3,7 @@ package mysql
 import (
 	"errors"
 	"newbeemall/models"
+	"strconv"
 
 	"github.com/jmoiron/sqlx"
 )
@@ -28,8 +29,8 @@ func UpdateStockNum(datas []*models.ShopCartDetail) (err error) {
 }
 
 func SaveOrder(order *models.ParamOrders) (err error) {
-	sqlStr := `insert into mallorder (ordernum, user_id, totalprice, paystatus, paytype,orderstatus, extrainfo) VALUES(?,?,?,?,?,?,?)`
-	_, err = db.Exec(sqlStr, order.OrderNum, order.UserId, order.TotalPrice, order.PayStatus, order.PayType, order.OrderStatus, order.ExtraInfo)
+	sqlStr := `insert into mallorder(order_id,ordernum, user_id, totalprice, paystatus, paytype,orderstatus, extrainfo) VALUES(?,?,?,?,?,?,?,?)`
+	_, err = db.Exec(sqlStr, order.OrderId, order.OrderNum, order.UserId, order.TotalPrice, order.PayStatus, order.PayType, order.OrderStatus, order.ExtraInfo)
 	return
 }
 
@@ -90,7 +91,58 @@ func GetOrderDetail(ordernum int64) (data *models.ParamOrders, err error) {
 
 func GetOrderList(page, size, userid int64) (datas []*models.ParamOrders, err error) {
 	datas = make([]*models.ParamOrders, 0)
-	sqlStr := `select * from mallorder where user_id=? and isdeleted=0 order by update_time desc limit ?,?`
+	sqlStr := `select order_id, ordernum, user_id, totalprice, paystatus, paytype, pay_time, orderstatus, extrainfo, isdeleted, create_time, update_time from mallorder where user_id=? and isdeleted=0 order by update_time desc limit ?,?`
 	err = db.Select(&datas, sqlStr, userid, (page-1)*size, size)
+	return
+}
+
+func SaveOrderItems(items []*models.ParamOrderItem) (err error) {
+	for _, item := range items {
+		sqlStr := `insert into orderitem(order_id, goods_id, goodsname, goodscoverimg, sellingprice, goods_count) VALUES (?,?,?,?,?,?)`
+		_, err = db.Exec(sqlStr, item.OrderId, item.GoodsID, item.GoodsName, item.GoodsCoverImg, item.SellingPrice, item.GoodsCount)
+	}
+	return
+}
+
+func GetOrderByID(orderid int64) (data *models.ParamOrders, err error) {
+	data = new(models.ParamOrders)
+	sqlStr := `select order_id, ordernum, user_id, totalprice, paystatus, paytype, pay_time,orderstatus, extrainfo, isdeleted, create_time, update_time from mallorder where order_id=?`
+	err = db.Get(data, sqlStr, orderid)
+	return
+}
+
+func GetOrderItem(orderid int64) (datas []*models.ParamOrderItem, err error) {
+	datas = make([]*models.ParamOrderItem, 0)
+	sqlStr := `select order_id, goods_id, goodsname, goodscoverimg, sellingprice, goods_count from orderitem where order_id=?`
+	err = db.Select(&datas, sqlStr, orderid)
+	return
+}
+
+func GetOrderList1(page int64, size int64, numstr string, statusstr string) (datas []*models.ParamOrders, err error) {
+	datas = make([]*models.ParamOrders, 0)
+	if numstr != "" {
+		ordernum, _ := strconv.ParseInt(numstr, 10, 64)
+		if statusstr != "" {
+			orderstatus, _ := strconv.ParseInt(statusstr, 10, 64)
+			sqlStr := `select order_id, ordernum, user_id, totalprice, paystatus, paytype, pay_time,orderstatus, extrainfo, isdeleted, create_time, update_time from mallorder where ordernum=? and orderstatus=? limit ?,?`
+			err = db.Select(&datas, sqlStr, ordernum, orderstatus, (page-1)*size, size)
+			return
+		} else {
+			sqlStr := `select order_id, ordernum, user_id, totalprice, paystatus, paytype, pay_time,orderstatus, extrainfo, isdeleted, create_time, update_time from mallorder where ordernum=? limit ?,?`
+			err = db.Select(&datas, sqlStr, ordernum, (page-1)*size, size)
+			return
+		}
+	} else if numstr == "" {
+		if statusstr != "" {
+			orderstatus, _ := strconv.ParseInt(statusstr, 10, 64)
+			sqlStr := `select order_id, ordernum, user_id, totalprice, paystatus, paytype, pay_time,orderstatus, extrainfo, isdeleted, create_time, update_time from mallorder where orderstatus=? limit ?,?`
+			err = db.Select(&datas, sqlStr, orderstatus, (page-1)*size, size)
+			return
+		} else {
+			sqlStr := `select order_id, ordernum, user_id, totalprice, paystatus, paytype, pay_time,orderstatus, extrainfo, isdeleted, create_time, update_time from mallorder limit ?,?`
+			err = db.Select(&datas, sqlStr, (page-1)*size, size)
+			return
+		}
+	}
 	return
 }

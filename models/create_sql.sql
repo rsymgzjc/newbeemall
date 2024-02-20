@@ -131,6 +131,7 @@ create table mallorder(
 
 alter table mallorder modify order_id bigint(20) not null auto_increment ;
 alter table mallorder modify ordernum bigint(20) not null;
+alter table mallorder modify order_id bigint(20) not null;
 
 create table shoppingcart(
       cart_id bigint(20) not null auto_increment,
@@ -141,4 +142,16 @@ create table shoppingcart(
       create_time timestamp null default current_timestamp,
       update_time timestamp null default current_timestamp on update current_timestamp,
       PRIMARY KEY  (cart_id)
+)engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
+
+create table orderitem(
+        orderitem_id bigint(20) not null auto_increment,
+        order_id bigint(20) not null ,
+        goods_id bigint(20) not null,
+        goodsname varchar(64) collate utf8mb4_general_ci not null,
+        goodscoverimg varchar(128) null ,
+        sellingprice int(10) not null ,
+        goods_count int(10) not null ,
+        create_time timestamp null default current_timestamp,
+        PRIMARY KEY  (orderitem_id)
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;

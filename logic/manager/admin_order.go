@@ -55,7 +55,7 @@ func CheckOutOrder(p *models.UserIds) (err error) {
 	return
 }
 
-func CloseOrderOrder(p *models.UserIds) (err error) {
+func CloseOrder(p *models.UserIds) (err error) {
 	datas, err := mysql.SearchOrder(p)
 	if err != nil {
 		return
@@ -77,4 +77,33 @@ func CloseOrderOrder(p *models.UserIds) (err error) {
 		return
 	}
 	return
+}
+
+func GetOrder(orderid int64) (data *models.OrderDetail, err error) {
+	data1, err := mysql.GetOrderByID(orderid)
+	if err != nil {
+		zap.L().Error("获取订单信息失败", zap.Error(err))
+		return
+	}
+	datas, err := mysql.GetOrderItem(orderid)
+	if err != nil {
+		zap.L().Error("获取订单项失败", zap.Error(err))
+		return
+	}
+	if len(datas) > 0 {
+		data = &models.OrderDetail{
+			OrderId:     data1.OrderId,
+			OrderNum:    data1.OrderNum,
+			TotalPrice:  data1.TotalPrice,
+			PayType:     data1.PayType,
+			OrderStatus: data1.OrderStatus,
+			CreateTime:  data1.CreateTime,
+			OrderItem:   datas,
+		}
+	}
+	return data, err
+}
+
+func GetOrderList(page int64, size int64, numstr string, statusstr string) (datas []*models.ParamOrders, err error) {
+	return mysql.GetOrderList1(page, size, numstr, statusstr)
 }

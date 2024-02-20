@@ -16,6 +16,7 @@ func SaveOrder(p *models.ParamOrder, userid int64) (err error) {
 	PriceTotal := 0
 	var CartIds []int64
 	var Goodids []int64
+	var OrderItems []*models.ParamOrderItem
 	GoodsMap := make(map[int64]*models.ParamGoodsInfo)
 	var GoodsInfo []*models.ParamGoodsInfo
 	datas, err := GetShopCart(ids, userid)
@@ -73,8 +74,10 @@ func SaveOrder(p *models.ParamOrder, userid int64) (err error) {
 				zap.L().Error("更新库存数量失败", zap.Error(err))
 				return
 			}
+			orderid := snowflake.GetID()
 			ordernum := snowflake.GetID()
 			Order := &models.ParamOrders{
+				OrderId:     orderid,
 				OrderNum:    ordernum,
 				UserId:      userid,
 				TotalPrice:  PriceTotal,
@@ -85,6 +88,21 @@ func SaveOrder(p *models.ParamOrder, userid int64) (err error) {
 			}
 			if err := mysql.SaveOrder(Order); err != nil {
 				zap.L().Error("生成订单失败", zap.Error(err))
+				return
+			}
+			for _, item := range datas {
+				orderitem := &models.ParamOrderItem{
+					OrderId:       orderid,
+					GoodsID:       item.ParamShopCart.GoodsID,
+					GoodsName:     item.ParamGoodsInfo.GoodsName,
+					GoodsCoverImg: item.GoodsCoverImg,
+					SellingPrice:  item.SellingPrice,
+					GoodsCount:    item.GoodsCount,
+				}
+				OrderItems = append(OrderItems, orderitem)
+			}
+			if err := mysql.SaveOrderItems(OrderItems); err != nil {
+				zap.L().Error("保存订单项失败", zap.Error(err))
 				return
 			}
 		}
