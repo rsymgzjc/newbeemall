@@ -19,6 +19,7 @@ func Setup() *gin.Engine {
 		mallRouter.InitMallUserAddressRouter(mallGroup)
 		mallRouter.InitMallShopCartRouter(mallGroup)
 		mallRouter.InitMallOrderRouter(mallGroup)
+		mallRouter.InitMallGoodsInfoIndexRouter(mallGroup)
 	}
 
 	//商城管理路由
