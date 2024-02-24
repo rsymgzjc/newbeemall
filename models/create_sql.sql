@@ -87,6 +87,7 @@ create table goods_category(
        PRIMARY KEY  (category_id)
 )engine =InnoDB DEFAULT CHARSET =utf8mb4 COLLATE=utf8mb4_general_ci;
 alter table goods_category modify categoryrank int(10) not null default '0';
+alter table goods_category modify parentid int(10) not null default '0';
 
 create table carousel(
        carousel_id bigint(20) not null auto_increment,

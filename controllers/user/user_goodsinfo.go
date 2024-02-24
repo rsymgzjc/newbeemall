@@ -27,3 +27,18 @@ func SearchGoodsHandler(c *gin.Context) {
 	}
 	controllers.ResponseSuccess(c, datas)
 }
+
+func GetGoodsDetailHandler(c *gin.Context) {
+	idStr := c.Param("id")
+	goodid, err := strconv.ParseInt(idStr, 10, 64)
+	if err != nil {
+		return
+	}
+	data, err := user.GetGoodsDetail(goodid)
+	if err != nil {
+		zap.L().Error("GetGoodsDetail with some problems", zap.Error(err))
+		controllers.ResponseError(c, controllers.CodeServerBusy)
+		return
+	}
+	controllers.ResponseSuccess(c, data)
+}
