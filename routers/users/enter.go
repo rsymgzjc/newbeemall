@@ -7,4 +7,5 @@ type MallRouterGroup struct {
 	MallOrderRouter
 	MallGoodsInfoIndexRouter
 	MallGoodsCategoryIndexRouter
+	MallCarouselIndexRouter
 }
